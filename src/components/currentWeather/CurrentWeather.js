@@ -4,7 +4,7 @@ import cloudIcon from "../../Assets/Icons/04d.png"
 const CurrentWeather = () => {
   return (
     <>
-       <div className='grid grid-cols-2 p-8 w-[34vw] rounded-lg bg-zinc-700 text-white gap-10'>
+       <div className='grid grid-cols-2 p-8 w-[34vw] rounded-lg bg-zinc-700 text-white gap-10 shadow-xl'>
 
           <div className='flex flex-col justify-between'>
               <div className='leading-none'>
@@ -19,7 +19,7 @@ const CurrentWeather = () => {
 
           </div>
 
-          <div className='flex flex-col justify-between leading-tight'>
+          <div className='flex flex-col justify-end leading-loose'>
             
             <div className='relative left-[5vw] bottom-[3vh] ' >
               <img src={cloudIcon} alt={cloudIcon} width={100}   />

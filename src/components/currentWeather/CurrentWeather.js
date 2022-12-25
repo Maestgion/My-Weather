@@ -19,7 +19,7 @@ const CurrentWeather = () => {
 
           </div>
 
-          <div className='flex flex-col justify-end leading-loose'>
+          <div className='flex flex-col justify-between leading-tight'>
             
             <div className='relative left-[5vw] bottom-[3vh] ' >
               <img src={cloudIcon} alt={cloudIcon} width={100}   />

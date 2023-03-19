@@ -1,33 +1,62 @@
-import React from 'react'
-import CurrentWeather from '../components/currentWeather/CurrentWeather'
-import Search from '../components/search/Search'
-
+import React, { useState } from "react";
+import { weather_api_key, weather_api_url } from "../Api/api";
+import CurrentWeather from "../components/currentWeather/CurrentWeather";
+import Search from "../components/search/Search";
 
 const Main = () => {
-  
-  const handleOnSearchChange = (searchData)=>
-  {
-    console.log(searchData) 
-  } 
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [weatherForecast, setWeatherForecast] = useState(null);
+
+  const handleOnSearchChange = (searchData) => {
+    console.log(searchData);
+
+    // splitting the value (key) and storing in the two vars
+
+    const [lat, lon] = searchData.value.split(" ");
+    console.log(lat, lon);
+
+    // fetching current weather and forecast
+
+    const currentWeatherFetch = fetch(
+      `${weather_api_url}/weather?lat=${lat}&lon=${lon}&appid=${weather_api_key}&units=metric`
+    );
+
+    const weatherForecastFetch = fetch(
+      `${weather_api_url}/forecast?lat=${lat}&lon=${lon}&appid=${weather_api_key}&units=metric`
+    );
+
+    // fetching both using Promise.all
+    Promise.all([currentWeatherFetch, weatherForecastFetch])
+      .then(async (res) => {
+        const waeatherRes = await res[0].json();
+        const forecastRes = await res[1].json();
+
+        setCurrentWeather({ city: searchData.label, ...waeatherRes });
+        setWeatherForecast({ city: searchData.label, ...forecastRes });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  console.log(currentWeather);
+  console.log(weatherForecast);
 
   return (
     <>
-        <div className='h-[100vh] flex flex-col items-center py-10 font-Roboto bg-[#3ddceb1f] gap-10'>
+      <div className="h-[100vh] flex flex-col items-center py-10 font-Roboto bg-[#3ddceb1f] gap-10">
+        {/* search widget */}
 
-          {/* search widget */}
-
-           <div className='w-8/12'>
-           <Search onSearchChange={handleOnSearchChange}/>
-           </div>
-
-           {/* current weather widget */}
-
-           <div>
-           <CurrentWeather/>
-           </div>
+        <div className="w-8/12">
+          <Search onSearchChange={handleOnSearchChange} />
         </div>
-    </>
-  )
-}
 
-export default Main
+        {/* current weather widget */}
+
+        <div>{currentWeather && <CurrentWeather data={currentWeather} />}</div>
+      </div>
+    </>
+  );
+};
+
+export default Main;

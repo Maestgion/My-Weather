@@ -1,20 +1,21 @@
 import React from 'react'
-import cloudIcon from "../../Assets/Icons/04d.png"
 
-const CurrentWeather = () => {
+const CurrentWeather = ({data}) => {
+
+  const icon = require(`../../Assets/Icons/${data.weather[0].icon}.png`);
+  
   return (
     <>
        <div className='grid grid-cols-2 p-8 w-[34vw] rounded-lg bg-zinc-700 text-white gap-10 shadow-xl'>
 
           <div className='flex flex-col justify-between'>
               <div className='leading-none'>
-                <p className='font-bold text-3xl'>Belgrade, RS</p>
-                <p className='text-lg tracking-wider'>broken,clouds</p>
+                <p className='font-bold text-3xl'>{data.city}</p>
+                <p className='text-lg tracking-wider'>{data.weather[0].description}</p>
               </div>
 
-
             <div>
-              <p className='text-8xl font-bold'>22°C</p>
+              <p className='text-8xl font-bold'>{Math.round(data.main.temp)}°C</p>
             </div>
 
           </div>
@@ -22,7 +23,9 @@ const CurrentWeather = () => {
           <div className='flex flex-col justify-between leading-tight'>
             
             <div className='relative left-[5vw] bottom-[3vh] ' >
-              <img src={cloudIcon} alt={cloudIcon} width={100}   />
+             
+              <img src={icon} alt={data.weather[0].icon} width={100}   />
+            
             </div>
             <div className='flex justify-between'>
               <div > 
@@ -36,10 +39,10 @@ const CurrentWeather = () => {
 
               <div >
                 <p className='invisible'>jjvhchgc</p>
-                <p>22°C</p>
-                <p>2.06 m/s</p>
-                <p>78%</p>
-                <p>1015 hPa</p>
+                <p>{Math.round(data.main.feels_like)}°C</p>
+                <p>{data.wind.speed} m/s</p>
+                <p>{data.main.humidity}%</p>
+                <p>{data.main.pressure} hPa</p>
                 
               </div>
 
